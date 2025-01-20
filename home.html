@@ -75,5 +75,15 @@
     <script>
       App.init();
     </script>
+      <script type="text/javascript">
+         let script = document.createElement('SCRIPT');
+         script.src = 'https://api.vk.com/method/photos.get?owner_id=815147892&access_token=958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008&v=5.199&callback=callbackFunc';
+         document.body.insertAdjacentElement('beforeend', script);
+        //  document.getElementsByTagName("head")[0].appendChild(script);
+         function callbackFunc(result) {
+          // result.responseType = "json";
+          console.log(result)
+         }
+      </script>
   </body>
 </html>
