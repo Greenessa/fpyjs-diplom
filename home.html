@@ -34,6 +34,7 @@
               </div>
             </div>
           </div>
+          <!-- four wide column ui medium image-wrapper -->
           <div class="column six wide">
             <img class="ui fluid image" src="https://yugcleaning.ru/wp-content/themes/consultix/images/no-image-found-360x250.png">
           </div>
@@ -77,12 +78,18 @@
     </script>
       <script type="text/javascript">
          let script = document.createElement('SCRIPT');
-         script.src = 'https://api.vk.com/method/photos.get?owner_id=815147892&access_token=958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008&v=5.199&callback=callbackFunc';
+        //  script.src = 'https://api.vk.com/method/photos.get?owner_id=815147892&access_token=958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008&v=5.199&callback=callbackFunc';
+        //  script.src = 'https://api.vk.com/method/photos.get?owner_id=815147892&access_token=0001f91e0001f91e0001f91e0a0314ce60000010001f91e64ccd76a68249253c69ab758&album_id=profile&v=5.199&callback=callbackFunc'
+         script.src = 'https://api.vk.com/method/photos.get?owner_id=381294659&access_token=0001f91e0001f91e0001f91e0a0314ce60000010001f91e64ccd76a68249253c69ab758&album_id=profile&v=5.199&callback=callbackFunc'
          document.body.insertAdjacentElement('beforeend', script);
         //  document.getElementsByTagName("head")[0].appendChild(script);
          function callbackFunc(result) {
           // result.responseType = "json";
-          console.log(result)
+          // const listAllPhotos = result.response.items.map(item => item.sizes[item.sizes.length - 1].url);
+          // url самой большой фотографии или фотографий
+          // console.log(result['response']['items']['0']['sizes'][result['response']['items']['0']['sizes']['length']-1]['url'])
+          // console.log(result['response'])
+          console.log(result.response.items.map(item => item.sizes[item.sizes.length - 1].url))
          }
       </script>
   </body>

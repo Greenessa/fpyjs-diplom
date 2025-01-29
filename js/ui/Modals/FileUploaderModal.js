@@ -2,9 +2,11 @@
  * Класс FileUploaderModal
  * Используется как всплывающее окно для загрузки изображений
  */
-class FileUploaderModal {
+class FileUploaderModal extends BaseModal {
   constructor( element ) {
-
+    super(element);
+    this.uploaderEl = document.querySelector('.file-uploader-modal');
+    this.registerEvents();
   }
 
   /**
@@ -17,34 +19,85 @@ class FileUploaderModal {
    * отправляет одно изображение, если клик был по кнопке отправки
    */
   registerEvents(){
-
+    const closeEl = this.uploaderEl.querySelector('i.x.icon');
+    closeEl.addEventListener('click', () => {
+      e.preventDefault();
+      this.close()});
+    const buttClose = this.uploaderEl.querySelector('.ui.close.button');
+    buttClose.addEventListener('click', () => {
+      e.preventDefault();
+      this.close()});
+    const buttSend = this.uploaderEl.querySelector('.ui.send-all.button');
+    buttSend.addEventListener('click', () => {
+      e.preventDefault();
+      this.sendAllImages()})
+    const contentEl = this.uploaderEl.querySelector('.content');
+    contentEl.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (e.target.tagName == input) {
+        e.target.closest('.ui.action.input').classList.remove('.error');
+      }
+      if (e.target.tagName == button) {
+        let imgEl = e.target.closest('.image-preview-container')
+        this.sendImage(imgEl); 
+      }
+    })
   }
 
   /**
    * Отображает все полученные изображения в теле всплывающего окна
    */
   showImages(images) {
-
+    let arrImg = Array.from(images).reverse();
+    let htmlList = [];
+    arrImg.forEach((img) => {
+      let htmlImg = this.getImageHTML(img);
+      htmlList.push(htmlImg);
+    })
+    let stringHtml = htmlList.join('');
+    const contentEl = this.uploaderEl.querySelector('.content');
+    contentEl.innerHTML = stringHtml;
   }
 
   /**
    * Формирует HTML разметку с изображением, полем ввода для имени файла и кнопкной загрузки
    */
   getImageHTML(item) {
-
+  return `<div class="image-preview-container">
+    <img src=${item} />
+    <div class="ui action input">
+      <input type="text" placeholder="Путь к файлу">
+      <button class="ui button"><i class="upload icon"></i></button>
+    </div>
+  </div>`
   }
 
   /**
    * Отправляет все изображения в облако
    */
   sendAllImages() {
-
+      let listImgContainer = this.uploaderEl.querySelectorAll('.image-preview-container');
+      for (const imageContainer of listImgContainer) {
+        sendImage(imageContainer);
+      }
   }
 
   /**
    * Валидирует изображение и отправляет его на сервер
    */
   sendImage(imageContainer) {
-
+    let input = imageContainer.querySelector('input');
+    if (input.value === '') {
+        input.closest('.ui.action.input').classList.add('.error');
+        return
+    }
+    input.closest('.ui.action.input').classList.add('.disabled');
+    let url = imageContainer.querySelector('img').src;
+    let path = input.value;
+    Yandex.uploadFile(path, url);
   }
 }
+
+// {/* <div class="ui input error">
+//   <input type="text" placeholder="Поиск...">
+// </div> */}

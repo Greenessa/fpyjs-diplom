@@ -3,8 +3,10 @@
  * Используется для взаимодействием блоком изображений
  * */
 class ImageViewer {
-  constructor( element ) {
-
+  constructor(element) {
+    this.element = element;
+    this.wrapEl = document.querySelector('.row');
+    this.registerEvents();
   }
 
   /**
@@ -24,14 +26,28 @@ class ImageViewer {
    * Очищает отрисованные изображения
    */
   clear() {
-
+    this.wrapEl.textContent = '';
   }
 
   /**
    * Отрисовывает изображения.
   */
   drawImages(images) {
-
+      const selectEl = document.querySelector('.select-all');
+      if (images != '') {
+        selectEl.classList.remove('disabled');
+      } else {
+        selectEl.classList.add('disabled');
+      }
+      // <div class='four wide column ui medium image-wrapper'><img src='XXX' /></div>`
+      for (const image of images) {
+        let divEl = document.createElement('div');
+        divEl.classList.add('four wide column ui medium image-wrapper');
+        let imgEl = document.createElement('img');
+        imgEl.src = image;
+        divEl.insertAdjacentElement('beforeend', imgEl);
+        this.wrapEl.insertAdjacentElement('beforeend', divEl);
+      }
   }
 
   /**
