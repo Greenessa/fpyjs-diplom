@@ -1,11 +1,12 @@
 /**
  * Класс ImageViewer
- * Используется для взаимодействием блоком изображений
+ * Используется для взаимодействием c блоком изображений
  * */
 class ImageViewer {
   constructor(element) {
     this.element = element;
-    this.wrapEl = document.querySelector('.row');
+    this.imgWrapEl = document.querySelector('.images-list');
+    this.wrapEl = this.imgWrapEl.querySelector('.row');
     this.registerEvents();
   }
 
@@ -19,6 +20,25 @@ class ImageViewer {
    * 5. Клик по кнопке "Отправить на диск" открывает всплывающее окно для загрузки файлов
    */
   registerEvents(){
+    this.imgWrapEl.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      if (e.target.classList.contains('image-preview-container')) {
+
+        }
+    })
+    this.imgWrapEl.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (e.target.classList.contains('image-preview-container')) {
+        e.target.classList.toggle('selected');
+        this.checkButtonText();
+      }
+  })
+    //  пункт 5
+    const buttonSend = this.imgWrapEl('button.send');
+    
+      buttonSend.addEventListener('click', (e) => {
+        App.getModal('fileUploader').open();
+      })
 
   }
 
@@ -42,7 +62,7 @@ class ImageViewer {
       // <div class='four wide column ui medium image-wrapper'><img src='XXX' /></div>`
       for (const image of images) {
         let divEl = document.createElement('div');
-        divEl.classList.add('four wide column ui medium image-wrapper');
+        divEl.classList.add('four.wide.column.ui.medium.image-wrapper');
         let imgEl = document.createElement('img');
         imgEl.src = image;
         divEl.insertAdjacentElement('beforeend', imgEl);

@@ -31,6 +31,9 @@ class VK {
     let scriptReq = document.querySelector('.request');
     scriptReq.remove();
     result.addEventListener('load', () => {
+      // const listUrlphoto = result.response.items.map(item => item.sizes[item.sizes.length - 1].url)
+      // console.log(listUrlphoto);
+      // VK.lastCallback(listUrlphoto);
       if (this.status >= 200 && this.status < 300) {
         console.log("success");
         // const urlBigphoto = result['response']['items']['0']['sizes'][result['response']['items']['0']['sizes']['length']-1]['url'];

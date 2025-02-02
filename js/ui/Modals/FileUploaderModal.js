@@ -93,11 +93,20 @@ class FileUploaderModal extends BaseModal {
     }
     input.closest('.ui.action.input').classList.add('.disabled');
     let url = imageContainer.querySelector('img').src;
-    let path = input.value;
-    Yandex.uploadFile(path, url);
+    let fileName = input.value;
+    Yandex.uploadFile(fileName, url, (status, response) => {
+      if (status >= 200 && status < 300) {
+        console.log(response);
+        alert("success" + status);
+        imageContainer.remove();
+    } else {
+        alert("error " + status);
+        return
+      }
+      let listImgContainer = this.uploaderEl.querySelectorAll('.image-preview-container');
+      if (listImgContainer.length === 0) {
+        App.getModal('fileUploader').close();
+      }
+    });
   }
 }
-
-// {/* <div class="ui input error">
-//   <input type="text" placeholder="Поиск...">
-// </div> */}
