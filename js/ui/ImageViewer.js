@@ -22,22 +22,54 @@ class ImageViewer {
   registerEvents(){
     this.imgWrapEl.addEventListener('dblclick', (e) => {
       e.preventDefault();
-      if (e.target.classList.contains('image-preview-container')) {
+      if (e.target.tagName === 'img') {
 
         }
     })
     this.imgWrapEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if (e.target.classList.contains('image-preview-container')) {
+      if (e.target.tagName === 'img') {
         e.target.classList.toggle('selected');
-        this.checkButtonText();
       }
+      this.checkButtonText();
   })
+    const selectEl = document.querySelector('.select-all');
+    selectEl.addEventListener('click', () => {
+      let listImg = this.imgWrapEl.querySelectorAll('img');
+      let flag = false;
+      let q = 0;
+      for (const imgEl of listImg) {
+        if (imgEl.classList.contains('selected')) {
+          flag = true;
+        }
+      }
+      if (flag === true) {
+        for (const imgEl of listImg) {
+          imgEl.classList.remove('selected')
+        }
+      } else {
+        for (const imgEl of listImg) {
+          imgEl.classList.add('selected')
+        }
+      }
+      this.checkButtonText();
+  })
+    const buttonShow = document.querySelector('.show-uploaded-files');
+    buttonShow.addEventListener('click', () => {
+      const fileUploaderWindow = App.getModal('fileUploader');
+
+      fileUploaderWindow.open();
+      Yandex.getUploadedFiles(() => {
+        FileUploaderModal.showImages(images)
+      })
+    })
     //  пункт 5
-    const buttonSend = this.imgWrapEl('button.send');
+    const buttonSend = this.imgWrapEl.querySelector('button.send');
     
       buttonSend.addEventListener('click', (e) => {
-        App.getModal('fileUploader').open();
+        const fileUploaderWindow = App.getModal('fileUploader');
+        
+        fileUploaderWindow.open();
       })
 
   }
@@ -74,7 +106,27 @@ class ImageViewer {
    * Контроллирует кнопки выделения всех изображений и отправки изображений на диск
    */
   checkButtonText(){
-
+    let listImg = this.imgWrapEl.querySelectorAll('img');
+    const selectEl = document.querySelector('.select-all');
+    const buttonSend = this.imgWrapEl.querySelector('button.send');
+    let flag = true;
+    let q = 0;
+    for (const imgEl of listImg) {
+      if (!imgEl.classList.contains('selected')) {
+        flag = false;
+      } else {
+        q+=1;
+      }  
+    }
+    if (flag) {
+      selectEl.textContent = 'Снять выделение'
+    } else {
+      selectEl.textContent = 'Выбрать всё'
+    }
+    if (q > 0) {
+      buttonSend.classList.remove('disabled')
+    } else {
+      buttonSend.classList.add('disabled')
+    }
   }
-
 }
