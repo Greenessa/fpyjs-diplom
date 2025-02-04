@@ -18,16 +18,21 @@ class SearchBlock {
     const inputEl = document.querySelector('input');
     const replaceEl = document.querySelector('.replace');
     const addEl = document.querySelector('.add');
-    let id = inputEl.value.trim();
+    let id = '';
+    inputEl.addEventListener('input', (e) => {
+      id = inputEl.value;
+      // console.log(id);
+    })
     addEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if ( id != '') {
+      if ( id.trim() != '') {
         VK.get(id, App.imageViewer.drawImages);
       }
     })
     replaceEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if ( id != '') {
+      if ( id.trim() != '') {
+        // console.log(id);
         App.imageViewer.clear();
         VK.get(id, App.imageViewer.drawImages);
       }

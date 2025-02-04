@@ -68,8 +68,9 @@ class ImageViewer {
     
       buttonSend.addEventListener('click', (e) => {
         const fileUploaderWindow = App.getModal('fileUploader');
-        
+        let listImgSel = this.imgWrapEl.querySelectorAll('img.selected');
         fileUploaderWindow.open();
+        fileUploaderWindow.showImages(listImgSel);
       })
 
   }
