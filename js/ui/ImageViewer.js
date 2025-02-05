@@ -59,10 +59,12 @@ class ImageViewer {
     const buttonShow = document.querySelector('.show-uploaded-files');
     buttonShow.addEventListener('click', () => {
       const fileUploaderWindow = App.getModal('fileUploader');
-
+      const contentEl = document.querySelector('.file-uploader-modal').querySelector('.content');
+      contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
       fileUploaderWindow.open();
       Yandex.getUploadedFiles(() => {
-        fileUploaderWindow.showImages(images)
+        fileUploaderWindow.showImages(images);
+        contentEl.innerHTML = '';
       })
     })
     //  пункт 5
