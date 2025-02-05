@@ -5,8 +5,9 @@
 class ImageViewer {
   constructor(element) {
     this.element = element;
+    this.imgPreview = document.querySelector('img.image');
     this.imgWrapEl = document.querySelector('.images-list');
-    this.wrapEl = this.imgWrapEl.querySelector('.row');
+    this.wrapEl = document.querySelector('.images-list').querySelector('.row');
     this.registerEvents();
   }
 
@@ -23,15 +24,16 @@ class ImageViewer {
     this.imgWrapEl.addEventListener('dblclick', (e) => {
       e.preventDefault();
       if (e.target.tagName === 'img') {
-
+        this.imgPreview.src = e.target.src;
         }
     })
     this.imgWrapEl.addEventListener('click', (e) => {
       e.preventDefault();
       if (e.target.tagName === 'img') {
         e.target.classList.toggle('selected');
+        this.checkButtonText();
       }
-      this.checkButtonText();
+      
   })
     const selectEl = document.querySelector('.select-all');
     selectEl.addEventListener('click', () => {
@@ -60,7 +62,7 @@ class ImageViewer {
 
       fileUploaderWindow.open();
       Yandex.getUploadedFiles(() => {
-        FileUploaderModal.showImages(images)
+        fileUploaderWindow.showImages(images)
       })
     })
     //  пункт 5
@@ -72,7 +74,6 @@ class ImageViewer {
         fileUploaderWindow.open();
         fileUploaderWindow.showImages(listImgSel);
       })
-
   }
 
   /**
