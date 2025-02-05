@@ -18,7 +18,7 @@ class VK {
     this.lastCallback = callback;
     let script = document.createElement('script');
     script.classList.add('request');
-    script.src = `https://api.vk.com/method/photos.get?owner_id=${id}&access_token=${this.ACCESS_TOKEN}&album_id=profile&v=5.199&callback=${this.processData}`;
+    script.src = `https://api.vk.com/method/photos.get?owner_id=${id}&access_token=${VK.ACCESS_TOKEN}&album_id=profile&v=5.199&callback=${VK.processData}`;
     document.body.insertAdjacentElement('beforeend', script);
   }
 
