@@ -20,15 +20,15 @@ class FileUploaderModal extends BaseModal {
    */
   registerEvents(){
     const closeEl = this.uploaderEl.querySelector('i.x.icon');
-    closeEl.addEventListener('click', () => {
+    closeEl.addEventListener('click', (e) => {
       e.preventDefault();
       this.close()});
     const buttClose = this.uploaderEl.querySelector('.ui.close.button');
-    buttClose.addEventListener('click', () => {
+    buttClose.addEventListener('click', (e) => {
       e.preventDefault();
       this.close()});
     const buttSend = this.uploaderEl.querySelector('.ui.send-all.button');
-    buttSend.addEventListener('click', () => {
+    buttSend.addEventListener('click', (e) => {
       e.preventDefault();
       this.sendAllImages()})
     const contentEl = this.uploaderEl.querySelector('.content');
@@ -55,7 +55,7 @@ class FileUploaderModal extends BaseModal {
       htmlList.push(htmlImg);
     })
     let stringHtml = htmlList.join('');
-    const contentEl = this.uploaderEl.querySelector('.content');
+    const contentEl = document.querySelector('.file-uploader-modal').querySelector('.content');
     contentEl.innerHTML = stringHtml;
   }
 
@@ -78,7 +78,7 @@ class FileUploaderModal extends BaseModal {
   sendAllImages() {
       let listImgContainer = this.uploaderEl.querySelectorAll('.image-preview-container');
       for (const imageContainer of listImgContainer) {
-        sendImage(imageContainer);
+        this.sendImage(imageContainer);
       }
   }
 

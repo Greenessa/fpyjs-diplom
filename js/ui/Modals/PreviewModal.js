@@ -46,7 +46,14 @@ class PreviewModal extends BaseModal {
    * Отрисовывает изображения в блоке всплывающего окна
    */
   showImages(data) {
-
+    const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
+    let arrImgInfo = Array.from(data.items).reverse();
+    let listImgInfo = [];
+    for (const item of arrImgInfo) {
+      listImgInfo.push(this.getImageInfo(item));
+    }
+    const stringHtml = listImgInfo.join('');
+    contentEl.innerHTML = stringHtml;
   }
 
   /**
@@ -54,29 +61,41 @@ class PreviewModal extends BaseModal {
    * в формат «30 декабря 2021 г. в 23:40» (учитывая временной пояс)
    * */
   formatDate(date) {
+    let d = new Date(date);
+      let options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timezone: 'UTC',
+        hour: 'numeric',
+        minute: 'numeric',
+      };
 
+      return d.toLocaleString("ru", options);
   }
 
   /**
    * Возвращает разметку из изображения, таблицы с описанием данных изображения и кнопок контроллеров (удаления и скачивания)
    */
   getImageInfo(item) {
+    let date = this.formatDate(item.created);
+    let path = item.path.split(':')[1];
     return `<div class="image-preview-container">
-  <img src='XXX' />
+  <img src=${path}/>
   <table class="ui celled table">
   <thead>
     <tr><th>Имя</th><th>Создано</th><th>Размер</th></tr>
   </thead>
   <tbody>
-    <tr><td>AAA</td><td>BBB</td><td>CCCКб</td></tr>
+    <tr><td>${item.name}</td><td>${date}</td><td>${item.size}Кб</td></tr>
   </tbody>
   </table>
   <div class="buttons-wrapper">
-    <button class="ui labeled icon red basic button delete" data-path='PPP'>
+    <button class="ui labeled icon red basic button delete" data-path=${item.path}>
       Удалить
       <i class="trash icon"></i>
     </button>
-    <button class="ui labeled icon violet basic button download" data-file='FFF'>
+    <button class="ui labeled icon violet basic button download" data-file=${item.file}>
       Скачать
       <i class="download icon"></i>
     </button>
@@ -84,3 +103,11 @@ class PreviewModal extends BaseModal {
 </div>`;
   }
 }
+
+// где:
+// * `XXX` путь к изображению
+// * `AAA` имя изображения
+// * `BBB` форматированная дата создания файла (форматирование происходит с помощью метода `formatDate`)
+// * `CCC` размер файла (в Кб)
+// * `PPP` путь к изображению относительно ЯДиска
+// * `FFF` ссылка на файл

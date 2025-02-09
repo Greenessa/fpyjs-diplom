@@ -18,7 +18,8 @@ class VK {
     this.lastCallback = callback;
     let script = document.createElement('script');
     script.classList.add('request');
-    script.src = `https://api.vk.com/method/photos.get?owner_id=${id}&access_token=${VK.ACCESS_TOKEN}&album_id=profile&v=5.199&callback=${VK.processData}`;
+    // script.src = `https://api.vk.com/method/photos.get?owner_id=${id}&access_token=${VK.ACCESS_TOKEN}&album_id=profile&v=5.199&callback=${VK.processData}`;
+    script.src = `https://api.vk.com/method/photos.get?owner_id=${encodeURIComponent(id)}&access_token=${encodeURIComponent(VK.ACCESS_TOKEN)}&album_id=profile&v=5.199&callback=VK.processData`;
     document.body.insertAdjacentElement('beforeend', script);
   }
 
@@ -29,7 +30,9 @@ class VK {
   static processData(result) {
     let scriptReq = document.querySelector('.request');
     scriptReq.remove();
+    // console.log(result);
     const listUrlphoto = result.response.items.map(item => item.sizes[item.sizes.length - 1].url);
+    // console.log(listUrlphoto);
     VK.lastCallback(listUrlphoto);
     VK.lastCallback = () => {}
   }

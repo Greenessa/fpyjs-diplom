@@ -58,12 +58,12 @@ class ImageViewer {
   })
     const buttonShow = document.querySelector('.show-uploaded-files');
     buttonShow.addEventListener('click', () => {
-      const fileUploaderWindow = App.getModal('fileUploader');
-      const contentEl = document.querySelector('.file-uploader-modal').querySelector('.content');
+      const filePreviewerWindow = App.getModal('filePreviewer');
+      const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
       contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
-      fileUploaderWindow.open();
+      filePreviewerWindow.open();
       Yandex.getUploadedFiles(() => {
-        fileUploaderWindow.showImages(images);
+        filePreviewerWindow.showImages(images);
         contentEl.innerHTML = '';
       })
     })
@@ -72,9 +72,9 @@ class ImageViewer {
     
       buttonSend.addEventListener('click', (e) => {
         const fileUploaderWindow = App.getModal('fileUploader');
-        let listImgSel = this.imgWrapEl.querySelectorAll('img.selected');
+        let listImgel = document.querySelector('.images-list').querySelectorAll('img.selected');
         fileUploaderWindow.open();
-        fileUploaderWindow.showImages(listImgSel);
+        fileUploaderWindow.showImages(listImgel);
       })
   }
 
@@ -97,12 +97,15 @@ class ImageViewer {
       }
       // <div class='four wide column ui medium image-wrapper'><img src='XXX' /></div>`
       for (const image of images) {
+        console.log(image);
         let divEl = document.createElement('div');
         divEl.classList.add('four.wide.column.ui.medium.image-wrapper');
         let imgEl = document.createElement('img');
         imgEl.src = image;
         divEl.insertAdjacentElement('beforeend', imgEl);
-        this.wrapEl.insertAdjacentElement('beforeend', divEl);
+        let insEl = document.querySelector('.images-list').querySelector('.row');
+        insEl.insertAdjacentElement('beforeend', divEl);
+        // this.wrapEl.insertAdjacentElement('beforeend', divEl);
       }
   }
 
