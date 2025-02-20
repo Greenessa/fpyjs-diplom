@@ -66,7 +66,7 @@ class FileUploaderModal extends BaseModal {
   return `<div class="image-preview-container">
     <img src=${item} />
     <div class="ui action input">
-      <input type="text" placeholder="Путь к файлу">
+      <input type="text" placeholder="Название на диске">
       <button class="ui button"><i class="upload icon"></i></button>
     </div>
   </div>`

@@ -12,8 +12,10 @@ const createRequest = (options = {}) => {
     xhr.open(options['method'], options['url']);
     xhr.responseType = 'json';
     xhr.setRequestHeader('Authorization', options['headers']['Authorization']);
+    xhr.setRequestHeader('Content-type', 'application/json'); 
     xhr.send();
     xhr.addEventListener('load', () => {
-        callback(xhr.status, xhr.response); 
+        options.callback(xhr.status, xhr.response); 
     })
 };
+

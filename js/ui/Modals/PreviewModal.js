@@ -17,7 +17,7 @@ class PreviewModal extends BaseModal {
    */
   registerEvents() {
     const closeEl = document.querySelector('.uploaded-previewer-modal').querySelector('i.x.icon');
-    closeEl.addEventListener('click', () => {
+    closeEl.addEventListener('click', (e) => {
       e.preventDefault();
       this.close();
     })
@@ -79,9 +79,9 @@ class PreviewModal extends BaseModal {
    */
   getImageInfo(item) {
     let date = this.formatDate(item.created);
-    let path = item.path.split(':')[1];
+    // let path = item.path.split(':')[1];
     return `<div class="image-preview-container">
-  <img src=${path}/>
+  <img src=${item.preview}/>
   <table class="ui celled table">
   <thead>
     <tr><th>Имя</th><th>Создано</th><th>Размер</th></tr>

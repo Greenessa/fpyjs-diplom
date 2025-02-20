@@ -62,8 +62,8 @@ class ImageViewer {
       const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
       contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
       filePreviewerWindow.open();
-      Yandex.getUploadedFiles(() => {
-        filePreviewerWindow.showImages(images);
+      Yandex.getUploadedFiles((status, data) => {
+        filePreviewerWindow.showImages(data);
         contentEl.innerHTML = '';
       })
     })
@@ -73,8 +73,13 @@ class ImageViewer {
       buttonSend.addEventListener('click', (e) => {
         const fileUploaderWindow = App.getModal('fileUploader');
         let listImgel = document.querySelector('.images-list').querySelectorAll('img.selected');
+        let listSrc = [];
+        for (const imgEl of listImgel) {
+          listSrc.push(imgEl.src)
+        }
+        console.log(listSrc);
         fileUploaderWindow.open();
-        fileUploaderWindow.showImages(listImgel);
+        fileUploaderWindow.showImages(listSrc);
       })
   }
 
@@ -92,6 +97,8 @@ class ImageViewer {
       const selectEl = document.querySelector('.select-all');
       if (images != '') {
         selectEl.classList.remove('disabled');
+        const noImageEl = document.querySelector('.images-wrapper').querySelector('.column.six.wide');
+        noImageEl.style.display = 'none';
       } else {
         selectEl.classList.add('disabled');
       }
