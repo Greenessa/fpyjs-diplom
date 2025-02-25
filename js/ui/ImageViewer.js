@@ -60,11 +60,18 @@ class ImageViewer {
     buttonShow.addEventListener('click', () => {
       const filePreviewerWindow = App.getModal('filePreviewer');
       const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
-      contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
+      // contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
       filePreviewerWindow.open();
       Yandex.getUploadedFiles((status, data) => {
-        filePreviewerWindow.showImages(data);
-        contentEl.innerHTML = '';
+        if (status >= 200 && status < 300) {
+          alert("success: " + status);
+          // console.log(data._embedded.items);
+          filePreviewerWindow.showImages(data);
+          // contentEl.innerHTML = '';
+      } else {
+          alert("error: " + status);
+          return
+        }
       })
     })
     //  пункт 5
@@ -77,7 +84,7 @@ class ImageViewer {
         for (const imgEl of listImgel) {
           listSrc.push(imgEl.src)
         }
-        console.log(listSrc);
+        // console.log(listSrc);
         fileUploaderWindow.open();
         fileUploaderWindow.showImages(listSrc);
       })
@@ -104,7 +111,7 @@ class ImageViewer {
       }
       // <div class='four wide column ui medium image-wrapper'><img src='XXX' /></div>`
       for (const image of images) {
-        console.log(image);
+        // console.log(image);
         let divEl = document.createElement('div');
         divEl.classList.add('four.wide.column.ui.medium.image-wrapper');
         let imgEl = document.createElement('img');

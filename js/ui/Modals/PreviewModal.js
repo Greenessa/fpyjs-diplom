@@ -23,18 +23,27 @@ class PreviewModal extends BaseModal {
     })
     const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
     contentEl.addEventListener('click', (e) => {
-      if (e.target.classlist.contains('delete')) {
-        e.target.querySelector('i').classlist.add('icon spinner loading');
-        e.target.classlist.add('disabled');
+      e.preventDefault();
+      if (e.target.classList.contains('delete')) {
+        e.target.querySelector('i').classList.add('icon.spinner.loading');
+        e.target.classList.add('disabled');
         let path = e.target.dataset.path;
+        // console.log(path);
         const elDel = e.target.closest('.image-preview-container');
         Yandex.removeFile(path, (status, response) => {
-          if (response === null) {
+          if (status >= 200 && status < 300) {
+            alert("success" + status);
             elDel.remove();
+        } else {
+            alert("error " + status);
+            return
           }
+          // if (response === null) {
+          //   elDel.remove();
+          // }
         } );
       }
-      if (e.target.classlist.contains('download')) {
+      if (e.target.classList.contains('download')) {
         let url = e.target.dataset.file;
         Yandex.downloadFileByUrl(url);
       }
@@ -47,7 +56,8 @@ class PreviewModal extends BaseModal {
    */
   showImages(data) {
     const contentEl = document.querySelector('.uploaded-previewer-modal').querySelector('.content');
-    let arrImgInfo = Array.from(data.items).reverse();
+    let arrImgInfo = Array.from(data._embedded.items).reverse();
+    // console.log(arrImgInfo);
     let listImgInfo = [];
     for (const item of arrImgInfo) {
       listImgInfo.push(this.getImageInfo(item));
@@ -81,7 +91,8 @@ class PreviewModal extends BaseModal {
     let date = this.formatDate(item.created);
     // let path = item.path.split(':')[1];
     return `<div class="image-preview-container">
-  <img src=${item.preview}/>
+  // <img src=${item.preview}/>
+  <img src=${item.file}/>
   <table class="ui celled table">
   <thead>
     <tr><th>Имя</th><th>Создано</th><th>Размер</th></tr>

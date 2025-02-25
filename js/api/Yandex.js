@@ -14,7 +14,7 @@ class Yandex {
     let token = null;
     token = localStorage.getItem('token');
     if (token === null) {
-      let token = prompt('введите Яндекс токен');
+      token = prompt('введите Яндекс токен');
       localStorage.setItem('token', token);
     }
     return token
@@ -39,10 +39,11 @@ class Yandex {
   /**
    * Метод удаления файла из облака
    */
-  static removeFile(fileName, callback){
+  static removeFile(path, callback){
     createRequest(
       {
-      'url': this.HOST + '/resources?path=' + this.folder + fileName,
+      // 'url': this.HOST + '/resources?path=' + this.folder + fileName,
+      'url': this.HOST + '/resources?path=' + path,
       'method': 'DELETE',
       'headers': {
         'Authorization': 'OAuth ' + encodeURIComponent(this.getToken())
@@ -57,7 +58,8 @@ class Yandex {
   static getUploadedFiles(callback){
     createRequest(
       {
-      'url': this.HOST + '/resources/files?media_type=image',
+      // 'url': this.HOST + '/resources/files?media_type=image',
+      'url': this.HOST + '/resources?path=' + this.folder + '&limit=100',
       'method': 'GET',
       'headers': {
         'Authorization': 'OAuth ' + encodeURIComponent(this.getToken())

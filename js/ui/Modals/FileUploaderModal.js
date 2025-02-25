@@ -34,10 +34,10 @@ class FileUploaderModal extends BaseModal {
     const contentEl = this.uploaderEl.querySelector('.content');
     contentEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if (e.target.tagName == input) {
+      if (e.target.tagName == 'input') {
         e.target.closest('.ui.action.input').classList.remove('.error');
       }
-      if (e.target.tagName == button) {
+      if (e.target.tagName == 'button') {
         let imgEl = e.target.closest('.image-preview-container')
         this.sendImage(imgEl); 
       }
@@ -96,7 +96,6 @@ class FileUploaderModal extends BaseModal {
     let fileName = input.value;
     Yandex.uploadFile(fileName, url, (status, response) => {
       if (status >= 200 && status < 300) {
-        console.log(response);
         alert("success" + status);
         imageContainer.remove();
     } else {
