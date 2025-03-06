@@ -10,16 +10,30 @@ class Yandex {
   /**
    * Метод формирования и сохранения токена для Yandex API
    */
-  static getToken() {
+
+
+  static getToken(flagInput=false) {
     let token = null;
     token = localStorage.getItem('token');
-    if (token === null) {
+    if (!token || flagInput === true) {
       token = prompt('введите Яндекс токен');
       localStorage.setItem('token', token);
     }
     return token
   }
-  
+  // метод создания папки
+  static сreateFolder(callback){
+    createRequest(
+      {
+        // https://cloud-api.yandex.net/v1/disk/resources?path=%2Fphotos_from_vk%2F
+      'url': this.HOST + '/resources?path=' + this.folder,
+      'method': 'PUT',
+      'headers': {
+        'Authorization': 'OAuth ' + encodeURIComponent(this.getToken())
+      },
+      'callback': callback,
+    }) 
+  }
 
   /**
    * Метод загрузки файла в облако

@@ -38,9 +38,6 @@ class PreviewModal extends BaseModal {
             alert("error " + status);
             return
           }
-          // if (response === null) {
-          //   elDel.remove();
-          // }
         } );
       }
       if (e.target.classList.contains('download')) {

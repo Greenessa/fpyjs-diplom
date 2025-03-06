@@ -34,11 +34,12 @@ class FileUploaderModal extends BaseModal {
     const contentEl = this.uploaderEl.querySelector('.content');
     contentEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if (e.target.tagName == 'input') {
+      if (e.target.tagName === 'input') {
         e.target.closest('.ui.action.input').classList.remove('.error');
       }
-      if (e.target.tagName == 'button') {
-        let imgEl = e.target.closest('.image-preview-container')
+      if (e.target.tagName === 'button' || e.target.tagName === 'i') {
+        let imgEl = e.target.closest('.image-preview-container');
+        console.log(imgEl);
         this.sendImage(imgEl); 
       }
     })
@@ -94,18 +95,30 @@ class FileUploaderModal extends BaseModal {
     input.closest('.ui.action.input').classList.add('.disabled');
     let url = imageContainer.querySelector('img').src;
     let fileName = input.value;
-    Yandex.uploadFile(fileName, url, (status, response) => {
-      if (status >= 200 && status < 300) {
-        alert("success" + status);
-        imageContainer.remove();
-    } else {
-        alert("error " + status);
+    // создаём папку или убеждаемся, что она уже есть
+      Yandex.сreateFolder((status1, response1) => {
+      if (status1 === 201 || status1 === 409) {
+        // alert(response1.message + status1);
+        Yandex.uploadFile(fileName, url, (status, response) => {
+          if (status >= 200 && status < 300) {
+            alert("Фото загружено на диск " + status);
+            imageContainer.remove();
+        } else {
+            alert("error " + status);
+            return
+          }
+          let listImgContainer = this.uploaderEl.querySelectorAll('.image-preview-container');
+          if (listImgContainer.length === 0) {
+            App.getModal('fileUploader').close();
+          }
+        });
+      } else if (status1 === 401) {
+        Yandex.getToken(true)
+      } else {
+        alert("Не удаётся создать папку " + status1);
         return
       }
-      let listImgContainer = this.uploaderEl.querySelectorAll('.image-preview-container');
-      if (listImgContainer.length === 0) {
-        App.getModal('fileUploader').close();
-      }
-    });
+      })
+    
   }
 }
