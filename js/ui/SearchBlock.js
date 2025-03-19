@@ -19,6 +19,8 @@ class SearchBlock {
     const replaceEl = document.querySelector('.replace');
     const addEl = document.querySelector('.add');
     let id = '';
+    let buttonLook = document.querySelector('.show-uploaded-files');
+    buttonLook.classList.add('disabled');
     inputEl.addEventListener('input', (e) => {
       id = inputEl.value;
       // console.log(id);

@@ -23,13 +23,19 @@ class ImageViewer {
   registerEvents(){
     this.imgWrapEl.addEventListener('dblclick', (e) => {
       e.preventDefault();
-      if (e.target.tagName === 'img') {
-        this.imgPreview.src = e.target.src;
+      if (e.target.tagName === 'IMG') {
+        const fileUploaderWindow = App.getModal('fileUploader');
+        let listSrc = [];
+        listSrc.push(e.target.src);
+        // console.log(listSrc);
+        fileUploaderWindow.open();
+        fileUploaderWindow.showImages(listSrc);
+        // this.imgPreview.src = e.target.src;
         }
     })
     this.imgWrapEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if (e.target.tagName === 'img') {
+      if (e.target.tagName === 'IMG') {
         e.target.classList.toggle('selected');
         this.checkButtonText();
       }
@@ -63,15 +69,18 @@ class ImageViewer {
       // contentEl.innerHTML = '<i class="asterisk loading icon massive"></i>';
       filePreviewerWindow.open();
       Yandex.getUploadedFiles((status, data) => {
+        if (status === 404) {
+          filePreviewerWindow.close();
+          alert('Вы ещё не загружали файлы на диск, загрузите их, пожалуйста. Статус: ' + status);
+          throw new Error ('Вы ещё не загружали файлы на диск, загрузите их, пожалуйста. Статус: ' + status);
+        }
         if (status >= 200 && status < 300) {
           alert("success: " + status);
           // console.log(data._embedded.items);
           filePreviewerWindow.showImages(data);
           // contentEl.innerHTML = '';
-      } else {
-          alert("error: " + status);
-          return
-        }
+      };
+      
       })
     })
     //  пункт 5
@@ -94,7 +103,8 @@ class ImageViewer {
    * Очищает отрисованные изображения
    */
   clear() {
-    this.wrapEl.textContent = '';
+    // this.wrapEl.textContent = '';
+    this.wrapEl.innerHTML = '';
   }
 
   /**

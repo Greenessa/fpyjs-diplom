@@ -34,10 +34,10 @@ class FileUploaderModal extends BaseModal {
     const contentEl = this.uploaderEl.querySelector('.content');
     contentEl.addEventListener('click', (e) => {
       e.preventDefault();
-      if (e.target.tagName === 'input') {
-        e.target.closest('.ui.action.input').classList.remove('.error');
+      if (e.target.tagName === 'INPUT') {
+        e.target.closest('.ui.action.input').classList.remove('error');
       }
-      if (e.target.tagName === 'button' || e.target.tagName === 'i') {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'I') {
         let imgEl = e.target.closest('.image-preview-container');
         console.log(imgEl);
         this.sendImage(imgEl); 
@@ -89,12 +89,13 @@ class FileUploaderModal extends BaseModal {
   sendImage(imageContainer) {
     let input = imageContainer.querySelector('input');
     if (input.value === '') {
-        input.closest('.ui.action.input').classList.add('.error');
+        input.closest('.ui.action.input').classList.add('error');
         return
     }
-    input.closest('.ui.action.input').classList.add('.disabled');
+    input.closest('.ui.action.input').classList.add('disabled');
     let url = imageContainer.querySelector('img').src;
     let fileName = input.value;
+    let buttonLook = document.querySelector('.show-uploaded-files');
     // создаём папку или убеждаемся, что она уже есть
       Yandex.сreateFolder((status1, response1) => {
       if (status1 === 201 || status1 === 409) {
@@ -102,6 +103,7 @@ class FileUploaderModal extends BaseModal {
         Yandex.uploadFile(fileName, url, (status, response) => {
           if (status >= 200 && status < 300) {
             alert("Фото загружено на диск " + status);
+            buttonLook.classList.remove('disabled');
             imageContainer.remove();
         } else {
             alert("error " + status);

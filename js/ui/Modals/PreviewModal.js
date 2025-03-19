@@ -88,7 +88,6 @@ class PreviewModal extends BaseModal {
     let date = this.formatDate(item.created);
     // let path = item.path.split(':')[1];
     return `<div class="image-preview-container">
-  // <img src=${item.preview}/>
   <img src=${item.file}/>
   <table class="ui celled table">
   <thead>
